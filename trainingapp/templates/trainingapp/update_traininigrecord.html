@@ -1,3 +1,17 @@
 
 
 {{form.as_p}}
+
+<table>
+    {% if training %}
+        {% for tr1 in training %}
+            <tr>
+                <td>{{tr1.id}}</td>
+                <td>{{tr1.training_id}}</td>
+                <td>{{tr1.employee_id}}</td>
+                <td>{{tr1.completed_on}}</td>
+                <td></td>
+            </tr>
+        {%endfor%}
+    {% endif %}
+</table>

@@ -38,7 +38,7 @@
                     <td scope="row"><a href="{{ syllabus_item.course_id.course_link }}" target="_blank">Course Link </td>
                     <td scope="row">{{ syllabus_item.course_group_id.group_name }} </td>
                     <td scope="row">{{ syllabus_item.get_course_interval_display }} </td>
-                    <td scope="row"> <a href="{% url 'add_training' syllabus_item.course_id.id %}">mark complete</a></td>   
+                    <td scope="row"> <a href="{% url 'add_training' syllabus_item.id %}">mark complete</a></td>   
                 </tr>
                {% endfor %}
                {% else %}

@@ -19,7 +19,7 @@
     <body>
         <div class = "row">
             <h4 class="text-center alert alert-info"> Save Training Record </h4>
-            {% if course%}
+            {% if syllabus%}
                 <div class="col-sm-8">
                     {% if messages %}
                         {% for message in messages %}
@@ -31,13 +31,13 @@
                         <table>
                             <tr>
                                 <td>
-                                    <p>Course: {{course}}</p>
+                                    <p>Course: {{syllabus}}</p>
                                 </td>
                             </tr>                            
                             <tr>
-                                <td>Completed Date</td>
-                                <td>:</td>
-                                <td><input type="date" name="completed_on" ></td>
+                               
+                                {% comment %} <td><input type="date" name="completed_on" default:date.now ></td> {% endcomment %}
+                                <td>{{form.as_p}}</td>
                             </tr>
                             <tr>
                                 <td colspan="3"> <center>

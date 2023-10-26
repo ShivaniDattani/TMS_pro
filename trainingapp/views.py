@@ -7,27 +7,25 @@ from courseapp.models import CourseDetails, CourseGroupSyllabus
 
 
 # Create your views here.
-def add_training(request, course_id):
-
-    # print(course_id)
-    # return render(request, 'trainingapp/add_training.html')
-
-    course = get_object_or_404(CourseGroupSyllabus, id=course_id) 
-    print(course)
-    #form = StaffTrainingRecordForm()
-
-    # if request.method == "POST":        
-    #     form = StaffTrainingRecordForm(request.POST)
-    #     if form.is_valid():
-    #         new_record = form.save(commit=False)
-    #         #print(new_record.type())
-    #         new_record.training_id = course.course_id
-    #         new_record.employee_id = request.user
-    #         new_record.save()
-    #         return redirect('trainingapp/add_training.html')
-    # else: 
-    #     form = StaffTrainingRecordForm()
-    return render(request, 'trainingapp/add_training.html')
+def add_training(request, syllabus_id):
+    if request.user.is_authenticated:
+        syllabus = get_object_or_404(CourseGroupSyllabus, id=syllabus_id)
+        if request.method == "POST":        
+            form = StaffTrainingRecordForm(request.POST)
+            if form.is_valid():
+                new_record = form.save(commit=False)
+                new_record.training_id = syllabus
+                new_record.employee_id = request.user
+                if TrainingRecord.objects.filter(training_id = new_record.training_id, employee_id = new_record.employee_id, completed_on = new_record.completed_on).exists():
+                    messages.info(request, "Training already exists!")
+                else:
+                    new_record.save()
+                    messages.success(request, "Record successfully Added!")
+        else: 
+            form = StaffTrainingRecordForm()
+        return render(request, 'trainingapp/add_training.html', {'syllabus': syllabus, 'form':form})
+    else:
+        return HttpResponseRedirect('/login/')
 
 
 def show_available_training(request):
@@ -41,16 +39,11 @@ def show_available_training(request):
         return render(request, 'trainingapp/show_availtraining.html', {'avail_training': avail_training})
     else:
         return HttpResponseRedirect('/login/')
-    
-# def complete_training(request, id):
-#     if request.user.is_authenticated:
-#         if request.method == "POST":
-#             fm = StaffTrainingRecordForm(request.POST)
-#             fm["employee_id"] = user.username
 
 def update_trainingrecord(request):
     form = StaffTrainingRecordForm()
     course = get_object_or_404(CourseGroupSyllabus, id=2)
     form.training_id = course
     form.employee_id = request.user
-    return render(request, 'trainingapp/update_traininigrecord.html', {'form':form })
+    training = TrainingRecord.objects.all()
+    return render(request, 'trainingapp/update_traininigrecord.html', {'form':form, 'training':training })
