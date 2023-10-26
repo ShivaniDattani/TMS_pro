@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lan="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> Available Training </title>
+    </head>
+    <body>
+        <table class="table">
+            <tr>
+                <td colspan="4"><h4> {{user.username}} </h4>
+                </td>
+                <td><form action="" method="get">
+                    <input name="q" type="text" placeholder="search course..">
+                    <button  type="submit">Search</button>
+                </form>
+                </td>
+                <td> 
+                </td>
+            </tr>
+        </table>
+       
+        <table class="table">
+            <thead>
+                <th scope="col"> Course Name </th>
+                <th scope="col"> Course Desc </th>
+                <th scope="col"> Course Link </th>
+                <th scope="col"> Course Group </th>
+                <th scope="col"> Interval Pace </th>
+                <th scope="col"> Completed? </th>
+            </thead>
+            <tbody>
+                {% if avail_training %}
+               {% for syllabus_item in avail_training%}
+                <tr>
+                    <td scope="row">{{ syllabus_item.course_id.course_name }} </td>
+                    <td scope="row">{{ syllabus_item.course_id.course_desc }} </td>
+                    <td scope="row"><a href="{{ syllabus_item.course_id.course_link }}" target="_blank">Course Link </td>
+                    <td scope="row">{{ syllabus_item.course_group_id.group_name }} </td>
+                    <td scope="row">{{ syllabus_item.get_course_interval_display }} </td>
+                    <td scope="row"> <a href="{% url 'add_training' syllabus_item.course_id.id %}">mark complete</a></td>   
+                </tr>
+               {% endfor %}
+               {% else %}
+                    <p> No Training Available </p>
+               {% endif %}
+            </tbody>
+        </table>""
+    
+    </body>
+</html>

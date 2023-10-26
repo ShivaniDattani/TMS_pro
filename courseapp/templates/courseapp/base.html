@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> Course Application </title>
+        <link rel="stylesheet" href="{% static 'courseapp/css/bootstrap.css' %}">
+    </head>
+    <body>
+        <div class="container mt-5">
+            <h2 class="text-center alert alert-danger"> View/Manage Courses </h2>
+            {% block content %}
+
+            {% endblock content %}
+        </div>
+        <script src="{% static 'courseapp/js/jquery.js' %}"></script>
+        <script src="{% static 'courseapp/js/popper.js' %}"></script>
+        <script src="{% static 'courseapp/js/bootstrap.js' %}"></script>
+    </body>
+</html>

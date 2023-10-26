@@ -1,0 +1,17 @@
+{% extends 'enrollapp/base.html' %}
+{% block content %}
+<form action="" method="post" novalidate>
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+        {%for error in form.non_field_errors %}
+            <p class="Er"> {{error}} </p>
+        {%endfor%}
+    {% endif %}
+    {% for fm in form %}
+        {{fm.label_tag}} {{fm}} {{fm.errors|striptags}} <br><br>
+    {% endfor %}
+    <input type="submit" value="Save">
+    <br>
+    <a href="{% url 'profile'%}">Back to Profile</a>
+  </form>
+{% endblock content %}
