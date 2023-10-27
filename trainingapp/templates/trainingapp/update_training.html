@@ -1,0 +1,38 @@
+{% extends 'trainingapp/base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-sm-8 offset-2">
+        <h4 class="text-center alert alert-info"> Update {{user.username}}'s Training Record <h4>
+        <br/>
+        {% if messages %}
+        {% for message in messages %}
+                <small class="{{message.tags}}"> {{message}} </small>
+            {% endfor %}
+        {% endif %}
+        <br>
+        {% if training %}
+            <form action="" method="post">
+                {% csrf_token %}
+                <table class="table table-bordered">
+                    <tr>
+                        <td>ID: {{training.id}}</td>
+                    </tr>
+                    <tr>
+                        <td>Course: {{training.training_id}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{form.as_p}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><center><input type="submit" class="btn btn-success" value="Update">
+                            <a href="{% url 'add_training' training.training_id.id %}" class="btn btn-info">Back</a></center></td>
+                    </tr>
+                </table>
+            </form>
+        {%else%}
+            <p> No Records Available!! </p>
+        {% endif %}
+        
+    </div>
+</div>
+{% endblock content %}

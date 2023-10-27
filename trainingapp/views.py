@@ -17,13 +17,14 @@ def add_training(request, syllabus_id):
                 new_record.training_id = syllabus
                 new_record.employee_id = request.user
                 if TrainingRecord.objects.filter(training_id = new_record.training_id, employee_id = new_record.employee_id, completed_on = new_record.completed_on).exists():
-                    messages.info(request, "Training already exists!")
+                    messages.info(request, "Record already exists!")
                 else:
                     new_record.save()
                     messages.success(request, "Record successfully Added!")
         else: 
             form = StaffTrainingRecordForm()
-        return render(request, 'trainingapp/add_training.html', {'syllabus': syllabus, 'form':form})
+        training = TrainingRecord.objects.filter(employee_id=request.user)
+        return render(request, 'trainingapp/add_training.html', {'syllabus': syllabus, 'form':form, 'training':training})
     else:
         return HttpResponseRedirect('/login/')
 
@@ -40,10 +41,29 @@ def show_available_training(request):
     else:
         return HttpResponseRedirect('/login/')
 
-def update_trainingrecord(request):
-    form = StaffTrainingRecordForm()
-    course = get_object_or_404(CourseGroupSyllabus, id=2)
-    form.training_id = course
-    form.employee_id = request.user
-    training = TrainingRecord.objects.all()
-    return render(request, 'trainingapp/update_traininigrecord.html', {'form':form, 'training':training })
+def delete_training(request, training_id):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            training = TrainingRecord.objects.filter(id=training_id)
+            training.delete()
+            return HttpResponseRedirect('/add_training')
+
+def update_training(request, training_id):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            training = TrainingRecord.objects.get(pk=training_id)
+            form = StaffTrainingRecordForm(request.POST, instance=training)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Record Successfully Updated!')
+        else:
+            training = TrainingRecord.objects.get(pk=training_id)
+            form = StaffTrainingRecordForm(instance=training)
+        return render(request, 'trainingapp/update_training.html', {'form':form, 'training':training})
+        
+    # form = StaffTrainingRecordForm()
+    # course = get_object_or_404(TrainingRecord, id=2)
+    # form.training_id = course
+    # form.employee_id = request.user
+    # training = TrainingRecord.objects.all()
+    # return render(request, 'trainingapp/update_training.html', {'form':form, 'training':training })
