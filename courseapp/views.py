@@ -94,14 +94,3 @@ def delete_syllabus(request, id):
         syllabus = CourseGroupSyllabus.objects.get(pk=id)
         syllabus.delete()
         return HttpResponseRedirect('/add_syllabus')
-    
-
-def test(request):
-    qs1 = CourseDetails.objects.values_list('course_name', 'course_desc', named=True)
-    qs2 = CourseGroup.objects.values_list('group_name', 'group_desc', named=True)
-
-    course = CourseDetails.objects.all()
-    print('Return:', course)
-    print()
-    print('query:', course.query)
-    return render(request, 'courseapp/test.html', {'course':course})

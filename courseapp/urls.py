@@ -13,5 +13,4 @@ urlpatterns = [
     path('add_syllabus/', views.add_syllabus, name='add_syllabus'),
     path('delete_syllabus/<int:id>/', views.delete_syllabus, name='delete_syllabus'),
     path('update_syllabus/<int:id>/', views.update_syllabus, name='update_syllabus'),
-    # path('', views.test, name='test'),
 ]
