@@ -67,3 +67,4 @@ def update_training(request, training_id):
     # form.employee_id = request.user
     # training = TrainingRecord.objects.all()
     # return render(request, 'trainingapp/update_training.html', {'form':form, 'training':training })
+

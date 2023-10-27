@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect
-from .forms import SignUpForm, UserLoginForm, UserPasswordChangeForm, UserSetPasswordForm, EditUserProfileForm, EditAdminUserProfileForm
+from .forms import SignUpForm, UserLoginForm, UserPasswordChangeForm, UserSetPasswordForm, EditUserProfileForm, EditManagerProfileForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -10,7 +10,7 @@ def sign_up(request):
         fm = SignUpForm(request.POST)
         if fm.is_valid():
             fm.save()
-            messages.success(request, 'Account Created Successfully !!')
+            messages.success(request, 'Account Created Successfully!! Go to Login page')
     else:
         fm = SignUpForm()
     return render(request, 'enrollapp/signup.html', {'form':fm})
@@ -25,20 +25,23 @@ def user_login(request):
                 user = authenticate(username=uname, password=upass)
                 if user is not None:
                     login(request, user)
-                    messages.success(request, 'Logged in successfully!!')
-                    return HttpResponseRedirect('/profile/')
+                    return HttpResponseRedirect('/')
+                else:
+                    messages.warning(request, 'Invalid Login details')
+                    return HttpResponseRedirect('login/')
         else:
             fm = UserLoginForm()
         return render(request, 'enrollapp/userlogin.html', {'form':fm})
     else:
-        return HttpResponseRedirect('/profile/')
+        return HttpResponseRedirect('/')
         #return HttpResponseRedirect('profile.html')
 
+   
 def user_profile(request):
     if request.user.is_authenticated:
         if request.method == "POST":
             if request.user.is_superuser == True:
-                fm = EditAdminUserProfileForm(request.POST, instance = request.user)
+                fm = EditManagerProfileForm(request.POST, instance = request.user)
                 users = User.objects.all()
             else:
                 fm = EditUserProfileForm(request.POST, instance = request.user)
@@ -48,7 +51,7 @@ def user_profile(request):
                 messages.success(request, "Data updated successfully!!")
         else:
             if request.user.is_superuser == True:
-                fm = EditAdminUserProfileForm(instance = request.user)
+                fm = EditManagerProfileForm(instance = request.user)
                 users = User.objects.all()
             else:
                 fm = EditUserProfileForm(instance = request.user)
@@ -59,6 +62,9 @@ def user_profile(request):
 
 def user_logout(request):
     logout(request)
+    # storage = messages.get_messages(request)
+    # storage.used = True
+    # messages.success(request, 'Thanks for using the app!!')
     return HttpResponseRedirect('/login/')
 
 #change password with old password
@@ -69,7 +75,7 @@ def user_change_pass(request):
             if fm.is_valid():
                 fm.save()
                 messages.success(request, 'Password Changed Successfully, Please login with your new password !!')
-                return HttpResponseRedirect('/profile/')
+                return HttpResponseRedirect('/login/')
         else:
             fm = UserPasswordChangeForm(user = request.user)
         return render(request, 'enrollapp/changepass.html', {'form':fm})
@@ -91,8 +97,11 @@ def user_set_pass(request):
 def user_detail(request, id):
     if request.user.is_authenticated:
         pi = User.objects.get(pk=id)
-        fm = EditAdminUserProfileForm(instance=pi)
+        fm = EditManagerProfileForm(instance=pi)
         return render(request, 'enrollapp/userdetails.html', {'form':fm})
     else:
        # return HttpResponseRedirect('/profile/')
         return HttpResponseRedirect('/profile/')
+
+def home(request):
+    return render(request, 'enrollapp/home.html')

@@ -13,4 +13,5 @@ urlpatterns = [
     path('changepass/', views.user_change_pass, name='changepass'),
     path('setpass/', views.user_set_pass, name='setpass'),
     path('userdetails/<int:id>', views.user_detail, name='userdetail'),
+    path('',views.home, name='home'),
 ]

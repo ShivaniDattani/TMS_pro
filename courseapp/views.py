@@ -3,8 +3,11 @@ from django.contrib import messages
 from courseapp.models import CourseDetails,CourseGroup,CourseGroupSyllabus
 from courseapp.forms import CourseDetailsForm, CourseGroupForm, CourseGroupSyllabusForm
 
-# Create your views here.
+from django.contrib.auth.decorators import user_passes_test
 
+
+# Create your views here.
+@user_passes_test(lambda user: user.is_superuser)
 def add_course(request):
     if request.method == 'POST':
         fm = CourseDetailsForm(request.POST)
@@ -17,12 +20,14 @@ def add_course(request):
     courses = CourseDetails.objects.all()
     return render(request, 'courseapp/add_details.html', {'form':fm, 'courses':courses})
 
+@user_passes_test(lambda user: user.is_superuser)
 def delete_course(request, id):
     if request.method == 'POST':
         course = CourseDetails.objects.get(pk=id)
         course.delete()
         return HttpResponseRedirect('/add_details')
 
+@user_passes_test(lambda user: user.is_superuser)
 def update_course(request, id):
     if request.method == 'POST':
         course = CourseDetails.objects.get(pk=id)
@@ -35,6 +40,7 @@ def update_course(request, id):
         fm = CourseDetailsForm(instance=course)
     return render(request, 'courseapp/update_details.html', {'form':fm})
 
+@user_passes_test(lambda user: user.is_superuser)
 def add_group(request):
     if request.method == 'POST':
         fm = CourseGroupForm(request.POST)
@@ -47,6 +53,7 @@ def add_group(request):
     groups = CourseGroup.objects.all()
     return render(request, 'courseapp/add_group.html', {'form':fm, 'groups':groups })
 
+@user_passes_test(lambda user: user.is_superuser)
 def update_group(request, id):
     if request.method == 'POST':
         group = CourseGroup.objects.get(pk=id)
@@ -59,12 +66,14 @@ def update_group(request, id):
         fm = CourseGroupForm(instance=group)
     return render(request, 'courseapp/update_group.html', {'form':fm})
 
+@user_passes_test(lambda user: user.is_superuser)
 def delete_group(request, id):
     if request.method == 'POST':
         group = CourseGroup.objects.get(pk=id)
         group.delete()
         return HttpResponseRedirect('/add_group')
 
+@user_passes_test(lambda user: user.is_superuser)
 def add_syllabus(request):
     if request.method == 'POST':
         fm = CourseGroupSyllabusForm(request.POST)
@@ -77,6 +86,7 @@ def add_syllabus(request):
     syllabus = CourseGroupSyllabus.objects.all()
     return render(request, 'courseapp/add_syllabus.html', {'form':fm, 'syllabus':syllabus })
 
+@user_passes_test(lambda user: user.is_superuser)
 def update_syllabus(request, id):
     if request.method == 'POST':
         syllabus = CourseGroupSyllabus.objects.get(pk=id)
@@ -89,6 +99,7 @@ def update_syllabus(request, id):
         fm = CourseGroupSyllabusForm(instance=syllabus)
     return render(request, 'courseapp/update_syllabus.html', {'form':fm})
 
+@user_passes_test(lambda user: user.is_superuser)
 def delete_syllabus(request, id):
     if request.method == 'POST':
         syllabus = CourseGroupSyllabus.objects.get(pk=id)

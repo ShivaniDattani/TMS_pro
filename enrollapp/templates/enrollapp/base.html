@@ -4,9 +4,10 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title> Course Application </title>
-        <link rel="stylesheet" href="{% static 'enrollapp/css/style.css' %}">
+        <title> Trial Management System </title>
         <link rel="stylesheet" href="{% static 'enrollapp/css/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'enrollapp/css/style.css' %}">
+        
     </head>
     <body>
         <div class ="navigation">
@@ -14,11 +15,23 @@
                 {%include 'enrollapp/navbar.html'%}
             {% endblock navbar%}
         </div>
-        <div class="container mt-5">
-            {% block content %}
+        
+        <div class="container mt-10">
+            <div class="row">
+                <div class="col-sm-12">
+                    {%block msg%}
+                    {%endblock%}
+                </div>
+            </div>
+            <div class="row">
+                {% block side %}
+                {% endblock side %}
 
-            {% endblock content %}
+                {% block content %}
+                {% endblock content %}
+            </div>
         </div>
+        
         <script src="{% static 'enrollapp/js/jquery.js' %}"></script>
         <script src="{% static 'enrollapp/js/popper.js' %}"></script>
         <script src="{% static 'enrollapp/js/bootstrap.js' %}"></script>

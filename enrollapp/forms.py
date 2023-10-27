@@ -24,10 +24,24 @@ class EditUserProfileForm(UserChangeForm):
         model = User
         fields=['username', 'first_name', 'last_name', 'email', 'date_joined', 'last_login', 'is_active']
         labels = {'email':'Email'}
+        widgets = { 
+            'date_joined': forms.TextInput(attrs={'disabled':True}),
+            'is_active': forms.CheckboxInput(attrs={'disabled':True}),
+            'last_login': forms.TextInput(attrs={'disabled':True}),
+         }
 
-class EditAdminUserProfileForm(UserChangeForm):
+        
+class EditManagerProfileForm(UserChangeForm):
     password = None
     class Meta:
         model = User
-        fields= '__all__'
+        fields= ['username', 'first_name', 'last_name', 'email', 'date_joined', 'is_active', 'is_staff', 'is_superuser', 'last_login']
         labels = {'email':'Email'}
+        widgets = { 
+            'date_joined': forms.TextInput(attrs={'disabled':True}),
+            'is_active': forms.CheckboxInput(attrs={'disabled':True}),
+            'is_staff': forms.CheckboxInput(attrs={'disabled':True}),
+            'is_superuser': forms.CheckboxInput(attrs={'disabled':True}),
+            'last_login': forms.TextInput(attrs={'disabled':True}),
+         }
+        

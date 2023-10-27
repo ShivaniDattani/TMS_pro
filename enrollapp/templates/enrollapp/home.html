@@ -1,0 +1,14 @@
+{% extends 'enrollapp/base.html' %}
+{% load static%}
+{% if user.is_authenticated %}
+{%block content%}
+
+    <div class="col-sm-10">
+        <h3> Home page </h3>
+    </div>
+
+   
+   
+{% endblock content%}
+{%endif%}
+
