@@ -1,28 +1,34 @@
 {% extends 'enrollapp/base.html' %}
 {% block content %}
-<h1> Login </h1>
-<br/>
-<br/>
-{% if messages %}
-    {% for message in messages %}
-        <small class="{{message.tags}}"> {{message}} </small>
-    {% endfor %}
-{% endif %}
-<br/>
-<form action ="" method="post" novalidate>
-    {% csrf_token %}
-    {% if form.non_field_errors %}
-        {%for error in form.non_field_errors %}
-            <p class="Er"> {{error}} </p>
-        {%endfor%}
-    {% endif %}
-    <br>
-    {% for fm in form %}
-        {{fm.label_tag}} {{fm}} {{fm.errors|striptags}} <br><br>
-    {% endfor %}
-
-    <input type="submit" value="Login">
-    <a href={% url 'setpass' %}>Forgot Password </a>
-    <a href="{% url 'signup' %}">SignUp</a>
-</form>
+<div class="row">
+    <div class="col-sm-12">
+        <h1> Login </h1>
+        <br/>
+        
+        {% if messages %}
+            {% for message in messages %}
+                <small class="{{message.tags}}"> {{message}} </small>
+            {% endfor %}
+        {% endif %}
+        <br/>
+        <form action ="" method="post" novalidate>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                {%for error in form.non_field_errors %}
+                    <p class="Er"> {{error}} </p>
+                {%endfor%}
+            {% endif %}
+            <br>
+            {% for fm in form %}
+                {{fm.label_tag}} {{fm}} {{fm.errors|striptags}} <br><br>
+            {% endfor %}
+            <center>
+            <input class="btn btn-sm btn-secondary" type="submit" value="Login">
+            <a class="btn btn-sm btn-secondary" href="{% url 'login'%}">Reset</a>
+            </center>
+            {% comment %} <a href={% url 'setpass' %}>Forgot Password </a> {% endcomment %}
+            {% comment %} <a href="{% url 'signup' %}">SignUp</a> {% endcomment %}
+        </form>
+    </div>
+</div>
 {% endblock content %}

@@ -1,5 +1,7 @@
 {% extends 'enrollapp/base.html' %}
 {% block content %}
+<div class="row">
+    <div class="col-sm-12">
     <h1> User Registration </h1>
     {% if messages %}
         {% for message in messages %}
@@ -7,8 +9,7 @@
         {% endfor %}
     {% endif %}
     <br/>
-    <br/>
-    <br/>
+    
     <form action="" method="post" novalidate>
         {% csrf_token %}
         {% if form.non_field_errors %}
@@ -19,7 +20,9 @@
         {% for fm in form %}
             {{fm.label_tag}} {{fm}} {{fm.errors|striptags}} <br><br>
         {% endfor %}
-        <input type="submit" value="SignUp">
-        <a href="{% url 'login' %}">Login</a>
+        <input class="btn btn-sm btn-secondary" type="submit" value="SignUp">
+        <a class="btn btn-sm btn-secondary" href="{% url 'login' %}">Login</a>
     </form>
+</div>
+</div>
 {% endblock content %}

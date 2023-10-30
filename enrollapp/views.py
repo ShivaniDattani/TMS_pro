@@ -3,6 +3,7 @@ from .forms import SignUpForm, UserLoginForm, UserPasswordChangeForm, UserSetPas
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from trainingapp.models import TrainingRecord
 
 # Create your views here.
 def sign_up(request):
@@ -104,4 +105,6 @@ def user_detail(request, id):
         return HttpResponseRedirect('/profile/')
 
 def home(request):
-    return render(request, 'enrollapp/home.html')
+    if request.user.is_authenticated:
+        training = TrainingRecord.objects.filter(employee_id=request.user)
+        return render(request, 'enrollapp/home.html', {'training':training})
