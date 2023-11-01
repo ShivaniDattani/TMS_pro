@@ -108,3 +108,5 @@ def home(request):
     if request.user.is_authenticated:
         training = TrainingRecord.objects.filter(employee_id=request.user)
         return render(request, 'enrollapp/home.html', {'training':training})
+    else:
+        return HttpResponseRedirect('/login/')

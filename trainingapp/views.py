@@ -4,9 +4,12 @@ from django.contrib import messages
 from trainingapp.forms import StaffTrainingRecordForm
 from trainingapp.models import TrainingRecord
 from courseapp.models import CourseDetails, CourseGroupSyllabus
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
+@login_required
 def add_training(request, syllabus_id):
     if request.user.is_authenticated:
         syllabus = get_object_or_404(CourseGroupSyllabus, id=syllabus_id)
@@ -28,6 +31,18 @@ def add_training(request, syllabus_id):
     else:
         return HttpResponseRedirect('/login/')
 
+def show_training_record(request):
+    if request.user.is_authenticated:
+        training = TrainingRecord.objects.all()
+        query = request.GET.get("q")
+        if query == "":
+            training = TrainingRecord.objects.all()
+        else:
+            user = User.objects.filter(username=query).all()
+            training = TrainingRecord.objects.filter(employee_id__in = user)
+        return render(request, 'trainingapp/show_trainingrecord.html', {'training': training})
+    else:
+        return HttpResponseRedirect('/login/')
 
 def show_available_training(request):
     if request.user.is_authenticated:
@@ -41,13 +56,17 @@ def show_available_training(request):
     else:
         return HttpResponseRedirect('/login/')
 
+@login_required
 def delete_training(request, training_id):
     if request.user.is_authenticated:
         if request.method == "POST":
             training = TrainingRecord.objects.filter(id=training_id)
             training.delete()
             return HttpResponseRedirect('/add_training')
+    else:
+        return HttpResponseRedirect('/login/')
 
+@login_required   
 def update_training(request, training_id):
     if request.user.is_authenticated:
         if request.method == 'POST':
@@ -60,7 +79,8 @@ def update_training(request, training_id):
             training = TrainingRecord.objects.get(pk=training_id)
             form = StaffTrainingRecordForm(instance=training)
         return render(request, 'trainingapp/update_training.html', {'form':form, 'training':training})
-        
+    else:
+        return HttpResponseRedirect('/login/')       
     # form = StaffTrainingRecordForm()
     # course = get_object_or_404(TrainingRecord, id=2)
     # form.training_id = course

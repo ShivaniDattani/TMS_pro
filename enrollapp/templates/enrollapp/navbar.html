@@ -12,6 +12,9 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'show_availtraining'%}">Available Training</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'show_trainingrecord'%}">Training Record</a>
+        </li>
         {% if user.is_superuser %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -1,0 +1,34 @@
+{% extends 'enrollapp/base.html' %}
+{% block content %}
+
+<table class="table">
+    <tr>
+        <td colspan="4"><h4> {{user.username}} </h4>
+        </td>
+        <td><form action="" method="get">
+            <input name="q" type="text" placeholder="search employee..">
+            <button  type="submit">Search</button>
+        </form>
+        </td>
+        <td> 
+        </td>
+    </tr>
+</table>
+    {%if training%}
+    <table class="table table-hover">
+        {% for tr in training%}
+        <tr>
+           <td> {{tr.training_id}}</td>
+            <td> {{tr.employee_id}} </td>
+            <td>{{tr.completed_on}} </td>
+            {% if tr.employee_id|stringformat:"s" == request.user.username|stringformat:"s" %} 
+                <td><input type="submit" value="Update"> </td>
+                <td><input type="submit" value="Delete"> </td>
+           {% endif %} 
+        </tr>
+        {% endfor %}
+        
+    </table>
+    {%endif%}
+
+{% endblock content %}
