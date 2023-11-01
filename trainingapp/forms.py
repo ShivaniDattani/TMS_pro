@@ -6,8 +6,8 @@ from enrollapp.forms import SignUpForm
 
 class StaffTrainingRecordForm(forms.ModelForm):
 
-    completed_on = forms.DateField(label='Completed Date', widget=forms.SelectDateWidget(attrs={'type':'date'}))
-
+    # completed_on = forms.DateField(label='Completed Date', widget=forms.SelectDateWidget(attrs={'type':'date'}))
+    completed_on = forms.DateField(label='Completed Date', widget=forms.SelectDateWidget(attrs={'type':'date', 'data-max':datetime.now()}))
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['completed_on'].initial = datetime.now()
