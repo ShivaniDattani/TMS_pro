@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render, HttpResponseRedirect, get_object_
 from django.contrib import messages
 from trainingapp.forms import StaffTrainingRecordForm
 from trainingapp.models import TrainingRecord
-from courseapp.models import CourseDetails, CourseGroupSyllabus
+from courseapp.models import CourseDetails, CourseGroup, CourseGroupSyllabus
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
@@ -50,8 +50,9 @@ def show_available_training(request):
         if query == None:
             avail_training = CourseGroupSyllabus.objects.all()
         else:
-            courses = CourseDetails.objects.filter(course_name__icontains=query).all()
-            avail_training = CourseGroupSyllabus.objects.filter(course_id__in = courses)
+            groups = CourseGroup.objects.filter(group_name__icontains = query).all()
+            # courses = CourseDetails.objects.filter(course_name__icontains=query).all()
+            avail_training = CourseGroupSyllabus.objects.filter(course_group_id__in = groups)
         return render(request, 'trainingapp/show_availtraining.html', {'avail_training': avail_training})
     else:
         return HttpResponseRedirect('/login/')
