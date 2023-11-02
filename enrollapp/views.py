@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponseRedirect
 from .forms import SignUpForm, UserLoginForm, UserPasswordChangeForm, UserSetPasswordForm, EditUserProfileForm, EditManagerProfileForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from trainingapp.models import TrainingRecord
 
 # Create your views here.
@@ -10,7 +10,9 @@ def sign_up(request):
     if request.method =="POST":
         fm = SignUpForm(request.POST)
         if fm.is_valid():
-            fm.save()
+            user = fm.save()
+            group = Group.objects.get(name='Staff-Group')
+            user.group.add(group)
             messages.success(request, 'Account Created Successfully!! Go to Login page')
     else:
         fm = SignUpForm()
