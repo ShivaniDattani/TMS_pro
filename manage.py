@@ -11,11 +11,11 @@ def main():
         print(""" 
         Warning: django is running in development mode by default. If you are deploying this application you must set the environment variable:
 
-        DJANGO_SETTINGS_MODULE to 'todo.production_settings'
+        DJANGO_SETTINGS_MODULE to 'TMS_Pro.production_settings'
 
         Alternatively, if you're running in development mode intentionally, you can quiet this message by setting:
 
-        DJANGO_SETTINGS_MODULE to 'todo.development_settings'
+        DJANGO_SETTINGS_MODULE to 'TMS_Pro.development_settings'
         """)
 
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'TMS_Pro.development_settings')
