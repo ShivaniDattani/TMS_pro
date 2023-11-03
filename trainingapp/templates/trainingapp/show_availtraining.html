@@ -22,6 +22,7 @@
                 <th scope="col"> Course Link </th>
                 <th scope="col"> Course Group </th>
                 <th scope="col"> Interval Pace </th>
+                <th scope="col"> Mandatory </th>
                 <th scope="col"> Completed? </th>
             </thead>
             <tbody>
@@ -33,6 +34,11 @@
                     <td scope="row"><a href="{{ syllabus_item.course_id.course_link }}" target="_blank">Course Link </td>
                     <td scope="row">{{ syllabus_item.course_group_id.group_name }} </td>
                     <td scope="row">{{ syllabus_item.get_course_interval_display }} </td>
+                    {% if syllabus_item.course_mandatory %}
+                        <td scope="row">Yes</td>
+                    {%else%}
+                        <td scope="row">No</td>
+                    {% endif %}
                     <td scope="row"> <a href="{% url 'add_training' syllabus_item.id %}">mark complete</a></td>   
                 </tr>
                {% endfor %}

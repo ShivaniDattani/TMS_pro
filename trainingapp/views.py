@@ -33,13 +33,12 @@ def add_training(request, syllabus_id):
 
 def show_training_record(request):
     if request.user.is_authenticated:
-        training = TrainingRecord.objects.all()
         query = request.GET.get("q")
-        if query == "":
-            training = TrainingRecord.objects.all()
-        else:
+        if query != "":
             user = User.objects.filter(username=query).all()
             training = TrainingRecord.objects.filter(employee_id__in = user)
+        else:
+            training = TrainingRecord.objects.all()
         return render(request, 'trainingapp/show_trainingrecord.html', {'training': training})
     else:
         return HttpResponseRedirect('/login/')

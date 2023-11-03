@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User, Group
 from trainingapp.models import TrainingRecord
+from courseapp.models import CourseGroupSyllabus
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def sign_up(request):
@@ -11,8 +13,11 @@ def sign_up(request):
         fm = SignUpForm(request.POST)
         if fm.is_valid():
             user = fm.save()
+            user.is_active = True
             group = Group.objects.get(name='Staff-Group')
-            user.group.add(group)
+            group.user_set.add(user)
+            user.save()
+            
             messages.success(request, 'Account Created Successfully!! Go to Login page')
     else:
         fm = SignUpForm()
@@ -39,38 +44,34 @@ def user_login(request):
         return HttpResponseRedirect('/')
         #return HttpResponseRedirect('profile.html')
 
-   
+@login_required
 def user_profile(request):
     if request.user.is_authenticated:
         if request.method == "POST":
-            if request.user.is_superuser == True:
+            if request.user.is_staff == True:
                 fm = EditManagerProfileForm(request.POST, instance = request.user)
-                users = User.objects.all()
             else:
                 fm = EditUserProfileForm(request.POST, instance = request.user)
-                users = None
             if fm.is_valid():
                 fm.save()
                 messages.success(request, "Data updated successfully!!")
         else:
-            if request.user.is_superuser == True:
+            if request.user.is_staff == True:
                 fm = EditManagerProfileForm(instance = request.user)
-                users = User.objects.all()
             else:
                 fm = EditUserProfileForm(instance = request.user)
-                users = None
-        return render(request, 'enrollapp/profile.html', {'name': request.user, 'form':fm, 'users':users})
+        return render(request, 'enrollapp/profile.html', {'name': request.user, 'form':fm})
     else:
         return HttpResponseRedirect('/login/')
 
 def user_logout(request):
     logout(request)
-    # storage = messages.get_messages(request)
-    # storage.used = True
-    # messages.success(request, 'Thanks for using the app!!')
+    storage = messages.get_messages(request)
+    storage.used = True
     return HttpResponseRedirect('/login/')
 
 #change password with old password
+@login_required
 def user_change_pass(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -96,19 +97,43 @@ def user_set_pass(request):
         fm = UserSetPasswordForm(user = request.user)
     return render(request, 'enrollapp/setpass.html', {'form':fm})
 
-
-def user_detail(request, id):
-    if request.user.is_authenticated:
-        pi = User.objects.get(pk=id)
-        fm = EditManagerProfileForm(instance=pi)
-        return render(request, 'enrollapp/userdetails.html', {'form':fm})
+@login_required
+def user_detail(request):
+    if request.user.is_staff:
+        users = User.objects.all()
+        return render(request, 'enrollapp/userdetails.html', {'users': users})
     else:
-       # return HttpResponseRedirect('/profile/')
         return HttpResponseRedirect('/profile/')
 
+@login_required
+def showuser_detail(request,id):
+    if request.user.is_staff:
+        showuser = User.objects.get(pk = id)
+        fm = EditManagerProfileForm(instance=showuser)
+        users = User.objects.all()
+        return render(request, 'enrollapp/userdetails.html', {'form':fm, 'users': users})
+    else:
+        return HttpResponseRedirect('/profile/')
+
+# @login_required
+# def user_detail(request, id):
+#     if request.user.is_staff:
+#         if id == None:
+#             users = User.objects.all()
+#             pi = User.object.get(pk=request.user)
+#         else:
+#             users = User.objects.all()
+#             pi = User.objects.get(pk=id)
+#         fm = EditManagerProfileForm(instance=pi)
+#         return render(request, 'enrollapp/userdetails.html', {'form':fm, 'users':users})
+#     else:
+#         return HttpResponseRedirect('/profile/')
+
+@login_required
 def home(request):
     if request.user.is_authenticated:
         training = TrainingRecord.objects.filter(employee_id=request.user)
+        
         return render(request, 'enrollapp/home.html', {'training':training})
     else:
         return HttpResponseRedirect('/login/')

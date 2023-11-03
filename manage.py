@@ -6,7 +6,8 @@ import sys
 
 def main():
     """Run administrative tasks."""
-
+    
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'TMS_Pro.development_settings')
     if os.getenv("DJANGO_SETTINGS_MODULE") is None:
         print(""" 
         Warning: django is running in development mode by default. If you are deploying this application you must set the environment variable:
@@ -18,7 +19,7 @@ def main():
         DJANGO_SETTINGS_MODULE to 'TMS_Pro.development_settings'
         """)
 
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'TMS_Pro.development_settings')
+    
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

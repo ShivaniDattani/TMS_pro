@@ -6,11 +6,8 @@ class SignUpForm(UserCreationForm):
     password2 = forms.CharField(label='Confirm Password (again)', widget = forms.PasswordInput )
     class Meta:
         model = User
-        fields = ['username','first_name', 'last_name', 'email', 'is_active']
+        fields = ['username','first_name', 'last_name', 'email']
         labels = {'email':'Email'}
-        widgets = {
-            'is_active': forms.CheckboxInput(attrs={'disabled':True}),
-        }
 
 class UserLoginForm(AuthenticationForm):
     pass
@@ -28,13 +25,12 @@ class EditUserProfileForm(UserChangeForm):
         fields=['username', 'first_name', 'last_name', 'email', 'date_joined', 'last_login', 'is_active']
         labels = {'email':'Email'}
         widgets = {
-            'email': forms.EmailInput(attrs={'style': 'width:100px'}),
+            'email': forms.EmailInput(attrs={'style': 'width:250px'}),
             'date_joined': forms.TextInput(attrs={'disabled':True}),
             'is_active': forms.CheckboxInput(attrs={'disabled':True}),
             'last_login': forms.TextInput(attrs={'disabled':True}),
          }
-
-        
+   
 class EditManagerProfileForm(UserChangeForm):
     password = None
     class Meta:
@@ -50,3 +46,5 @@ class EditManagerProfileForm(UserChangeForm):
             'last_login': forms.TextInput(attrs={'disabled':True}),
          }
         
+class AssignUserProfileForm(UserChangeForm):
+    pass

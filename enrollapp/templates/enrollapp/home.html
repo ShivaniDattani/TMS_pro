@@ -2,10 +2,8 @@
 {% load static%}
 {% if user.is_authenticated %}
 {%block content%}
-    <div class="row">
-        <div class="col-sm-12">
-            <h3> Home page </h3>
-            <h4 class="text-center alert alert-info"> {{user.username}}'s Training Record </h4>
+        <div class="col-sm-6">
+            <h4 class="text-center alert alert-success"> {{user.username}}'s Training Record </h4>
             {% if training%}
             <table class="table table-hover">
                 <thead>
@@ -13,6 +11,7 @@
                         <th scope="col"> ID</th>
                         <th scope="col">Training Name </th>
                         <th scope="col">Date of Completion </th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -21,13 +20,39 @@
                         <td scope="row">{{tr.id}}</td>
                         <td scope="row">{{tr.training_id}}</td>
                         <td scope="row">{{tr.completed_on}}</td>
+                        
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         {% endif %}
         </div>
-    </div>
+        <div class="col-sm-6">
+            <h4 class="text-center alert alert-info"> Suggested Training </h4>
+            {% if training%}
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col"> ID</th>
+                        <th scope="col">Training Name </th>
+                        <th scope="col">Date of Completion </th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tr in training%}
+                    <tr>
+                        <td scope="row">{{tr.id}}</td>
+                        <td scope="row">{{tr.training_id}}</td>
+                        <td scope="row">{{tr.completed_on}}</td>
+                        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        </div>
+    
 {% endblock content%}
 {%endif%}
 

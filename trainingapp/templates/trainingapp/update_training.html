@@ -1,15 +1,18 @@
 {% extends 'enrollapp/base.html' %}
-{% block content %}
-<div class="row">
-    <div class="col-sm-12 offset-2 mt-5">
-        <h4 class="text-center alert alert-info"> Update {{user.username}}'s Training Record </h4>
-        <br/>
+{%block msg%}
+<br/>
         {% if messages %}
         {% for message in messages %}
                 <small class="{{message.tags}}"> {{message}} </small>
             {% endfor %}
         {% endif %}
         <br>
+{%endblock%}
+{% block content %}
+<div class="row">
+    <div class="col-sm-12 offset-2 mt-5">
+        <h4 class="text-center alert alert-info"> Update {{user.username}}'s Training Record </h4>
+        
         {% if training %}
             <form action="" method="post">
                 {% csrf_token %}
@@ -25,7 +28,9 @@
                     </tr>
                     <tr>
                         <td colspan="3"><center><input type="submit" class="btn btn-success" value="Update">
-                            <a href="{% url 'add_training' training.training_id.id %}" class="btn btn-info">Back</a></center></td>
+                            {% comment %} <a href="{% url 'add_training' training.training_id.id %}" class="btn btn-info">Back</a></center></td> {% endcomment %}
+                            {% comment %} <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-info">Back</a></center> {% endcomment %}
+                            <a href="javascript:history.go(-1)" class="btn btn-info">Back</a></center>
                     </tr>
                 </table>
             </form>
