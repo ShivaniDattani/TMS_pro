@@ -8,44 +8,44 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col"> ID</th>
+                        {% comment %} <th scope="col"> ID</th> {% endcomment %}
                         <th scope="col">Training Name </th>
                         <th scope="col">Date of Completion </th>
-                        
                     </tr>
                 </thead>
                 <tbody>
                     {% for tr in training%}
                     <tr>
-                        <td scope="row">{{tr.id}}</td>
+                        {% comment %} <td scope="row">{{tr.id}}</td> {% endcomment %}
                         <td scope="row">{{tr.training_id}}</td>
                         <td scope="row">{{tr.completed_on}}</td>
-                        
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+        {% else %}
+         <p> No Training Record yet </p>
         {% endif %}
         </div>
         <div class="col-sm-6">
             <h4 class="text-center alert alert-info"> Suggested Training </h4>
-            {% if training%}
+            {% if courses%}
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col"> ID</th>
+                        {% comment %} <th scope="col"> ID</th> {% endcomment %}
                         <th scope="col">Training Name </th>
-                        <th scope="col">Date of Completion </th>
-                        
+                        <th scope="col">List of Group </th>
+                        <th scope="col">Course Link</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for tr in training%}
+                    {% for crse in courses%}
                     <tr>
-                        <td scope="row">{{tr.id}}</td>
-                        <td scope="row">{{tr.training_id}}</td>
-                        <td scope="row">{{tr.completed_on}}</td>
-                        
+                        {% comment %} <td scope="row">{{crse.id}}</td> {% endcomment %}
+                        <td scope="row">{{crse.course_id}}</td>
+                        <td scope="row">{{crse.course_group_id}}</td>
+                        <td scope="row"><a href="{{crse.course_id.course_link}}" target="_blank">Coures Link</a> </td>
                     </tr>
                     {% endfor %}
                 </tbody>

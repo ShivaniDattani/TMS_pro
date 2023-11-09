@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User, Group
 from trainingapp.models import TrainingRecord
-from courseapp.models import CourseGroupSyllabus
+from courseapp.models import CourseGroupSyllabus, CourseDetails, CourseGroup
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -129,11 +129,27 @@ def showuser_detail(request,id):
 #     else:
 #         return HttpResponseRedirect('/profile/')
 
-@login_required
+
 def home(request):
     if request.user.is_authenticated:
+        # show their training record
         training = TrainingRecord.objects.filter(employee_id=request.user)
-        
-        return render(request, 'enrollapp/home.html', {'training':training})
+
+        #show suggested courses
+        if not training:
+            newstartergroup = CourseGroup.objects.filter(group_name__icontains='New starters').all()
+            suggestedCourses = CourseGroupSyllabus.objects.filter(course_group_id__in=newstartergroup)
+        else:
+            training_grouplist = []
+            training_recordlist = []
+            for tr in training:
+                traininggroups = tr.training_id.course_group_id
+                if traininggroups not in training_grouplist:
+                    training_grouplist.append(traininggroups)
+                training_record = tr.training_id.course_id
+                training_recordlist.append(training_record)
+            print(training_recordlist)
+            suggestedCourses = CourseGroupSyllabus.objects.filter(course_group_id__in=training_grouplist).exclude(course_id__in = training_recordlist)
+        return render(request, 'enrollapp/home.html', {'training':training, 'courses':suggestedCourses})
     else:
         return HttpResponseRedirect('/login/')
