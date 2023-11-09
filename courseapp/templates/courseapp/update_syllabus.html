@@ -1,7 +1,7 @@
 {% extends 'enrollapp/base.html' %}
 {% block content %}
-<div class="row">
-    <div class="col-sm-12 offset-2 mt-5">
+
+    <div class="col-sm-6 offset-2 mt-5">
         <h4 class="alert alert-info">Update Syllabus Information</h4>
         <br>
         {% if messages %}
@@ -14,9 +14,9 @@
             {% csrf_token %}
             {{form.as_p}}
             <input type="submit" class="btn btn-success" value="Update">
-            <a href="{% url 'add_syllabus'%}" class="btn btn-info">Back to Home</a>
+            <a href="{% url 'add_syllabus'%}" class="btn btn-info">Back</a>
         </form>
     </div>
-</div>
+
 
 {% endblock content %}

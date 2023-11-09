@@ -7,10 +7,10 @@
             {% endfor %}
         {% endif %}
         <br>
-{%endblock%}
+{%endblock msg%}
 {% block content %}
-<div class="row">
-    <div class="col-sm-12 offset-2 mt-5">
+
+    <div class="col-sm-6 offset-2 mt-5">
         <h4 class="text-center alert alert-info"> Update {{user.username}}'s Training Record </h4>
         
         {% if training %}
@@ -39,5 +39,5 @@
         {% endif %}
         
     </div>
-</div>
+
 {% endblock content %}

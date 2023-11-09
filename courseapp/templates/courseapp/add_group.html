@@ -19,13 +19,13 @@
     <div class="col-sm-9">
         <h4 class="text-center alert alert-info"> Show Available Groups</h4>
         {% if groups %}
-        <table class="table table-hover">
+        <table class="table table-hover table-bordered">
             <thead>
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Name</th>
                     <th scope="col">Description</th>
-                    <th scope="col">Action</th>
+                    <th scope="col" colspan="2" style="text-align:center">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,6 +36,8 @@
                         <td>{{group.group_desc}}</td>
                         <td>
                             <a href="{% url 'update_group' group.id %}" class="btn btn-warning btn-sm">Edit</a>
+                        </td>
+                        <td>
                             <form action="{% url 'delete_group' group.id %}" method="post" class="d-inline">
                                 {% csrf_token %}
                                 <input type="submit" class="btn btn-danger btn-sm" onclick='confirm("Are you sure to delete this record?")' value="Delete">

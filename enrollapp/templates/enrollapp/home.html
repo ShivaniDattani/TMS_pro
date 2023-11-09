@@ -5,7 +5,7 @@
         <div class="col-sm-6">
             <h4 class="text-center alert alert-success"> {{user.username}}'s Training Record </h4>
             {% if training%}
-            <table class="table table-hover">
+            <table class="table table-hover table-bordered">
                 <thead>
                     <tr>
                         {% comment %} <th scope="col"> ID</th> {% endcomment %}
@@ -30,7 +30,7 @@
         <div class="col-sm-6">
             <h4 class="text-center alert alert-info"> Suggested Training </h4>
             {% if courses%}
-            <table class="table table-hover">
+            <table class="table table-hover table-bordered">
                 <thead>
                     <tr>
                         {% comment %} <th scope="col"> ID</th> {% endcomment %}

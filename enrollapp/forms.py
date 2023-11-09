@@ -39,11 +39,11 @@ class EditManagerProfileForm(UserChangeForm):
         labels = {'email':'Email'}
         widgets = {
             'email': forms.EmailInput(attrs={'style': 'width:250px','class':'form-control'}),
-            'date_joined': forms.TextInput(attrs={'disabled':True}),
-            'is_active': forms.CheckboxInput(attrs={'disabled':True}),
-            'is_staff': forms.CheckboxInput(attrs={'disabled':True}),
+            'date_joined': forms.TextInput(attrs={'disabled':True, 'style': 'width:250px', 'class':'form-control'}),
+            'is_active': forms.CheckboxInput(attrs={'disabled':True, }),
+            'is_staff': forms.CheckboxInput(attrs={'disabled':True }),
             'is_superuser': forms.CheckboxInput(attrs={'disabled':True}),
-            'last_login': forms.TextInput(attrs={'disabled':True}),
+            'last_login': forms.TextInput(attrs={'disabled':True, 'style': 'width:250px', 'class':'form-control'}),
          }
         
 class AssignUserProfileForm(UserChangeForm):

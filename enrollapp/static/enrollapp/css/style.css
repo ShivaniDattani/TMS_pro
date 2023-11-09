@@ -4,3 +4,20 @@
 .Er{
     color:red
 }
+/* .myTable2{
+    .pointer.active.desc:after {
+        content: "▲";
+      }
+      .pointer.active.asc:after {
+        content: "▼";
+      }
+} */
+
+.myTable2{
+    .dir:asc {
+        content: "▲";
+      }
+      .dir:desc {
+        content: "▼";
+      }
+}

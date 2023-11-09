@@ -1,11 +1,11 @@
 {% if user.is_authenticated  %}
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary bg-light" style="background-color: #e3f2fd;">
   <div class="container-fluid">
     
     <a class="navbar-brand" href="{% url 'home'%}">Training Management system</a>
     
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
+      <ul class="nav justify-content-center">
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url 'home'%}">Home</a>
         </li>
@@ -26,8 +26,10 @@
             <li><a class="dropdown-item" href="{% url 'add_syllabus' %}">Manage Syllabus</a></li>
           </ul>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'userdetail'%}">User Admin</a>
+        </li>
         {% endif %}
-        
         <li class="nav-item">
           <a class="nav-link" href="{% url 'profile'%}">{{user.username}}'s Profile</a>
         </li>
@@ -40,11 +42,11 @@
   </div>
 </nav>
     {% else %}
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary bg-light">
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'login'%}">Training Management system</a>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav">
+          <ul class="nav justify-content-center">
           <li class="nav-item">
             <a class="nav-link " href="{% url 'login'%}">Login</a>
           </li>

@@ -1,7 +1,7 @@
 {% extends 'enrollapp/base.html' %}
 {% block content %}
 <div class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-12 justify-content-center">
         <h1> Profile Page </h1>
         <br/>
         {% if messages %}
@@ -23,8 +23,6 @@
             <center>
                 <input class="btn btn-sm btn-secondary" type="submit" value="Save">
                 <a class="btn btn-sm btn-secondary" href={% url 'changepass' %}>Change Password </a>
-                <a class="btn btn-sm btn-secondary" href={% url 'logout' %}>Logout </a>
-                <a class="btn btn-sm btn-secondary" href={% url 'userdetail' %}>User Detail </a>
             </center>
         </form>
         <br>

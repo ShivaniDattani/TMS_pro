@@ -2,12 +2,13 @@
 {% block content %}
 
 <table class="table">
-    <tr>
-        <td colspan="4"><h4> {{user.username}} </h4>
+    <tr class="text-center alert alert-info">
+        <td style="width:30%"><h4> {{user.username}} </h4>
         </td>
-        <td><form action="" method="get">
+        <td style="width:40%"><h4>Training Record</h4></td>
+        <td style="width:30%"><form action="" method="get">
             <input name="q" type="text" placeholder="search employee..">
-            <button  type="submit">Search</button>
+            <button class="btn btn-info" type="submit">Search</button>
         </form>
         </td>
         <td> 
@@ -15,18 +16,34 @@
     </tr>
 </table>
     {%if training%}
-    <table class="table table-hover">
-        {% for tr in training%}
-        <tr>
-           <td> {{tr.training_id}}</td>
-            <td> {{tr.employee_id}} </td>
-            <td>{{tr.completed_on}} </td>
-            {% if tr.employee_id|stringformat:"s" == request.user.username|stringformat:"s" %} 
-                <td><input type="submit" value="Update"> </td>
-                <td><input type="submit" value="Delete"> </td>
-           {% endif %} 
-        </tr>
-        {% endfor %}
+    <table class="table table-hover table-bordered" id="myTable2">
+        <thead>
+            <th scope="col" onclick="sortTable(0)"> Course Name </th>
+            <th scope="col"> Employee Name </th>
+            <th scope="col"> Completed Date </th>
+            <th scope="col" colspan="2" style="text-align:center"> Action </th>
+        </thead>
+        <tbody>
+            {% if training %}
+            {% for tr in training%}
+            <tr>
+                <td> {{tr.training_id}}</td>
+                <td> {{tr.employee_id}} </td>
+                <td>{{tr.completed_on}} </td>
+                {% if tr.employee_id|stringformat:"s" == request.user.username|stringformat:"s" %} 
+                    <td><a href = "{% url 'update_training' tr.id %}" class="btn btn-warning btn-sm">Edit</a></td>
+                    <td><form action ="{% url 'delete_training' tr.id %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-danger btn-sm" onclick='confirm("Are you sure to delete this record?")' value="Delete">
+                    </form></td>
+                {% endif %} 
+            </tr>
+            {% endfor %}
+            {%else%}
+                <p> No Records Available </p>
+            {% endif %}
+        </tbody>
+        
         
     </table>
     {%endif%}

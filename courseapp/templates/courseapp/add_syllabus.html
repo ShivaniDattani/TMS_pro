@@ -19,7 +19,7 @@
     <div class="col-sm-9">
         <h4 class="text-center alert alert-info"> Show Available Course Details </h4>
         {% if syllabus %}
-            <table class="table table-hover">
+            <table class="table table-hover table-bordered">
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
@@ -28,7 +28,7 @@
                         <th scope="col">Interval Pace</th>
                         <th scope="col">Mandatory?</th>
                         <th scope="col">Link</th>
-                        <th scope="col">Action</th>
+                        <th scope="col" colspan="2" style="text-align:center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,6 +42,8 @@
                             <td><a href="{{sylbus.course_id.course_link}}" target="_blank">Course Link</a></td>
                             <td>
                                 <a href="{% url 'update_syllabus' sylbus.id %}" class="btn btn-warning btn-sm">Edit</a>
+                            </td>
+                            <td>
                                 <form action="{% url 'delete_syllabus' sylbus.id %}" method="post" class="d-inline">
                                     {% csrf_token %}
                                     <input type="submit" class="btn btn-danger btn-sm" onclick='confirm("Are you sure to delete this record?")' value="Delete">

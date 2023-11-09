@@ -148,7 +148,6 @@ def home(request):
                     training_grouplist.append(traininggroups)
                 training_record = tr.training_id.course_id
                 training_recordlist.append(training_record)
-            print(training_recordlist)
             suggestedCourses = CourseGroupSyllabus.objects.filter(course_group_id__in=training_grouplist).exclude(course_id__in = training_recordlist)
         return render(request, 'enrollapp/home.html', {'training':training, 'courses':suggestedCourses})
     else:

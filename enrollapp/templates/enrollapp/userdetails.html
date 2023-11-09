@@ -1,7 +1,7 @@
 {% extends 'enrollapp/base.html' %}
-{%block side %}
+{% block content %}
     <div class = "row">
-        <div class ="col-sm-3">
+        <div class ="col-sm-4">
         {% if users != None %}
             <h3> List of Users </h3>
             {% for user in users %}
@@ -9,20 +9,33 @@
             {%endfor%}
         {% endif%}
         </div>
-    </div>
-{% endblock side%}
-{% block content %}
-    <div class="row">
-        <div class="col-sm-9">
+        <div class="col-sm-8">
             <h1> User Profile </h1>
+            <br/>
+            {% if messages %}
+                {% for message in messages %}
+                    <small class="{{message.tags}}"> {{message}} </small>
+                {% endfor %}
+            {% endif %}
+            <br>
             {% if form %}
-                <form action="" method="post">
-                {{form.as_p}}
+                <form action="" method="post" novalidate>
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                    {%for error in form.non_field_errors %}
+                        <p class="Er"> {{error}} </p>
+                    {%endfor%}
+                {% endif %}
+                {% for fm in form %}
+                    {{fm.label_tag}} {{fm}} {{fm.errors|striptags}} <br><br>
+                {% endfor %}
+                <center>
+                    <input class="btn btn-sm btn-secondary" type="submit" value="Save">
+                </center>
                 </form> 
             {% else %}
                 No Data
             {%endif%}
-            <a href={% url 'profile' %}>Back to my Profile</a>
         </div>
     </div>
 {% endblock content %}
