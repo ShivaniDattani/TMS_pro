@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect
-from .forms import SignUpForm, UserLoginForm, UserPasswordChangeForm, UserSetPasswordForm, EditUserProfileForm, EditManagerProfileForm
+from .forms import SignUpForm, UserLoginForm, UserPasswordChangeForm, UserSetPasswordForm, EditUserProfileForm, EditManagerProfileForm, AssignUserProfileForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User, Group
@@ -109,7 +109,13 @@ def user_detail(request):
 def showuser_detail(request,id):
     if request.user.is_staff:
         showuser = User.objects.get(pk = id)
-        fm = EditManagerProfileForm(instance=showuser)
+        if request.method == 'POST':
+            fm = AssignUserProfileForm(request.POST, instance = showuser)
+            if fm.is_valid():
+                fm.save()
+                messages.success(request, 'User profile successfully updated!')
+        else:
+            fm = AssignUserProfileForm(instance=showuser)
         users = User.objects.all()
         return render(request, 'enrollapp/userdetails.html', {'form':fm, 'users': users})
     else:

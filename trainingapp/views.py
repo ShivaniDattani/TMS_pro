@@ -62,7 +62,7 @@ def delete_training(request, training_id):
         if request.method == "POST":
             training = TrainingRecord.objects.filter(id=training_id)
             training.delete()
-            return HttpResponseRedirect('/add_training')
+        return render(request, 'trainingapp/add_training.html')
     else:
         return HttpResponseRedirect('/login/')
 

@@ -1,7 +1,7 @@
 {% extends 'enrollapp/base.html' %}
 {% block content %}
     <div class = "row">
-        <div class ="col-sm-4">
+        <div class ="col-sm-5">
         {% if users != None %}
             <h3> List of Users </h3>
             {% for user in users %}
@@ -9,7 +9,7 @@
             {%endfor%}
         {% endif%}
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-7">
             <h1> User Profile </h1>
             <br/>
             {% if messages %}
@@ -33,6 +33,8 @@
                     <input class="btn btn-sm btn-secondary" type="submit" value="Save">
                 </center>
                 </form> 
+            {% elif users != None %}
+                Please select user name from the list of the left side bar
             {% else %}
                 No Data
             {%endif%}
