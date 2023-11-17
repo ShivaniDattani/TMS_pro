@@ -17,11 +17,13 @@ def sign_up(request):
             group = Group.objects.get(name='Staff-Group')
             group.user_set.add(user)
             user.save()
-            
-            messages.success(request, 'Account Created Successfully!! Go to Login page')
+            messages.success(request, 'Account Created Successfully. Please login with your credentials.')
+            return HttpResponseRedirect('/login/')
+            # loginform = UserLoginForm()
+            # return render(request, 'enrollapp/userlogin.html', {'form':loginform})
     else:
         fm = SignUpForm()
-    return render(request, 'enrollapp/signup.html', {'form':fm})
+        return render(request, 'enrollapp/signup.html', {'form':fm})
 
 def user_login(request):
     if not request.user.is_authenticated:
