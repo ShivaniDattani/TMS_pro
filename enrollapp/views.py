@@ -6,24 +6,33 @@ from django.contrib.auth.models import User, Group
 from trainingapp.models import TrainingRecord
 from courseapp.models import CourseGroupSyllabus, CourseDetails, CourseGroup
 from django.contrib.auth.decorators import login_required
+import logging
 
-# Create your views here.
+
+logger = logging.getLogger(__name__)
+
 def sign_up(request):
-    if request.method =="POST":
+    if request.method == "POST":
         fm = SignUpForm(request.POST)
+        logger.debug("Sign up form submitted.")
+
         if fm.is_valid():
             user = fm.save()
             user.is_active = True
             group = Group.objects.get(name='Staff-Group')
             group.user_set.add(user)
             user.save()
+            logger.info("New user created: {user.username}")
             messages.success(request, 'Account Created Successfully. Please login with your credentials.')
             return HttpResponseRedirect('/login/')
-            # loginform = UserLoginForm()
-            # return render(request, 'enrollapp/userlogin.html', {'form':loginform})
+        else:
+            # If the form isn't valid, re-render the page with the form and its errors
+            logger.warning("Sign-up form invalid")
+            return render(request, 'enrollapp/signup.html', {'form': fm})
     else:
         fm = SignUpForm()
-        return render(request, 'enrollapp/signup.html', {'form':fm})
+        return render(request, 'enrollapp/signup.html', {'form': fm})
+    
 
 def user_login(request):
     if not request.user.is_authenticated:
