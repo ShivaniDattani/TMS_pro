@@ -21,8 +21,7 @@
         {% for fm in form %}
             {{fm.label_tag}} {{fm}} {{fm.errors|striptags}} <br><br>
         {% endfor %}
-        <input class="btn btn-sm btn-secondary" type="submit" value="SignUp">
-        <a class="btn btn-sm btn-secondary" href="{% url 'login' %}">Login</a>
+        <input class="btn btn-sm btn-secondary" type="submit" value="SignUp">        
     </form>
 </div>
 </div>
