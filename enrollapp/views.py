@@ -12,11 +12,12 @@ def sign_up(request):
     if request.method =="POST":
         fm = SignUpForm(request.POST)
         if fm.is_valid():
-            user = fm.save()
-            user.is_active = True
-            group = Group.objects.get(name='Staff-Group')
-            group.user_set.add(user)
-            user.save()
+            # user = fm.save()
+            # user.is_active = True
+            # group = Group.objects.get(name='Staff-Group')
+            # group.user_set.add(user)
+            # user.save()
+            fm.save()
             messages.success(request, 'Account Created Successfully. Please login with your credentials.')
             return HttpResponseRedirect('/login/')
             # loginform = UserLoginForm()
